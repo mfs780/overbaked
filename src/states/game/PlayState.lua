@@ -13,19 +13,21 @@ function PlayState:init()
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
         
         x = VIRTUAL_WIDTH / 2 - 8,
-        y = VIRTUAL_HEIGHT / 2 - 11,
+        y = VIRTUAL_HEIGHT / 2 - 1,
         
         width = 16,
         height = 22,
 
         -- rendering and collision offset for spaced sprites
-        offsetY = 5
+        offsetY = 5,
+
+        bumped = false
     }
 
     self.currentRoom = Room(self.player)
 
     self.player.stateMachine = StateMachine {
-        ['walk'] = function() return PlayerWalkState(self.player, self.dungeon) end,
+        ['walk'] = function() return PlayerWalkState(self.player) end,
         ['idle'] = function() return PlayerIdleState(self.player) end
     }
     self.player:changeState('idle')

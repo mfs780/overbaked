@@ -11,12 +11,6 @@ function Room:init(player)
     self.width = MAP_WIDTH
     self.height = MAP_HEIGHT
 
-    self.tiles = {}
-    self:generateWallsAndFloors()
-
-    -- reference to player for collisions, etc.
-    self.player = player
-
     -- used for centering the dungeon rendering
     self.renderOffsetX = MAP_RENDER_OFFSET_X
     self.renderOffsetY = MAP_RENDER_OFFSET_Y
@@ -24,6 +18,91 @@ function Room:init(player)
     -- used for drawing when this room is the next room, adjacent to the active
     self.adjacentOffsetX = 0
     self.adjacentOffsetY = 0
+
+    -- reference to player for collisions, etc.
+    self.player = player
+
+    self.tiles = {}
+    self:generateWallsAndFloors()
+
+    self.map = {}
+    self.layout = {
+        {"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"},
+        {"E", "T", "T", "C", "T", "T", "H", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "E"},
+        {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
+        {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
+        {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
+        {"E", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "E", "E", "E", "T", "E"},
+        {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
+        {"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
+        {"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
+        {"E", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "E"},
+        {"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"}
+    }
+    self:generateMap()
+end
+
+--[[
+    Randomly creates an assortment of obstacles for the player to navigate around.
+]]
+function Room:generateMap()
+    for y = 1, self.height do
+        for x = 1, self.width do
+            local tile = self.layout[y][x]
+            
+            if tile == 'T' then
+                table.insert(self.map, GameObject(
+                    GAME_MAP_DEFS['table'],
+                    (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
+                    (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
+                ))
+
+                local wall = self.map[table.maxn(self.map)]
+
+                -- left: x > && y >= && <= Y + TILE_SIZE
+                -- 
+                wall.onCollide = function()
+                    self.player.x = self.player.px
+                    self.player.y = self.player.py
+                end
+            end
+
+            if tile == 'C' then
+                table.insert(self.map, GameObject(
+                    GAME_MAP_DEFS['chest'],
+                    (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
+                    (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
+                ))
+
+                local chest = self.map[table.maxn(self.map)]
+
+                -- left: x > && y >= && <= Y + TILE_SIZE
+                -- 
+                chest.onCollide = function()
+                    print(self.player.action)
+                    self.player.x = self.player.px
+                    self.player.y = self.player.py
+                end
+            end
+
+            if tile == 'H' then
+                table.insert(self.map, GameObject(
+                    GAME_MAP_DEFS['hole'],
+                    (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
+                    (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
+                ))
+
+                local hole = self.map[table.maxn(self.map)]
+
+                -- left: x > && y >= && <= Y + TILE_SIZE
+                -- 
+                hole.onCollide = function()
+                    self.player.x = self.player.px
+                    self.player.y = self.player.py
+                end
+            end
+        end
+    end
 end
 
 --[[
@@ -31,23 +110,6 @@ end
     of said tiles for visual variety.
 ]]
 function Room:generateWallsAndFloors()
-    local W = 1
-    local T = 1
-    local E = 1
-
-    self.map = {
-        {W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W},
-        {W, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, W},
-        {W, T, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, T, W},
-        {W, T, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, T, W},
-        {W, T, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, T, W},
-        {W, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, E, E, W},
-        {W, T, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, T, W},
-        {W, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, T, W},
-        {W, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, T, W},
-        {W, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, W},
-        {W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W}
-    }
 
     for y = 1, self.height do
         table.insert(self.tiles, {})
@@ -82,23 +144,35 @@ function Room:generateWallsAndFloors()
             })
         end
     end
-
-    self.tiles = self.map
 end
 
 function Room:update(dt)
     self.player:update(dt)
+
+    for k, object in pairs(self.map) do
+        object:update(dt)
+
+        -- trigger collision callback on object
+        if self.player:collides(object) then
+            object:onCollide()
+        end
+    end
 end
 
 function Room:render()
     for y = 1, self.height do
         for x = 1, self.width do
             local tile = self.tiles[y][x]
-            love.graphics.draw(gTextures['tiles'], gFrames['tiles'][tile],
+            love.graphics.draw(gTextures['tiles'], gFrames['tiles'][tile.id],
                 (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX, 
                 (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY)
         end
     end
+
+    for k, object in pairs(self.map) do
+        object:render(self.adjacentOffsetX, self.adjacentOffsetY)
+    end
+
 
     if self.player then
         self.player:render()

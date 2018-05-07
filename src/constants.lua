@@ -1,11 +1,8 @@
 --[[
-    GD50
-    Legend of Zelda
+    OverBaked
 
-    -- constants --
-
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
+    Author: Mohammad Fahad Sheikh
+    fahadsheikh780@gmail.com
 ]]
 
 VIRTUAL_WIDTH = 384
@@ -55,5 +52,6 @@ TILE_LEFT_WALLS = {77, 96, 115}
 TILE_RIGHT_WALLS = {78, 97, 116}
 
 TILE_TABLE = 109
-TILE_CHEST = 128
-TILE_HOLE = 168
+TILE_CHEST = 167
+TILE_HOLE = 128
+TILE_POT = 14

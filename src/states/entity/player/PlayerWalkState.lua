@@ -18,6 +18,8 @@ function PlayerWalkState:init(player)
 end
 
 function PlayerWalkState:update(dt)
+    self.entity.action = false
+
     if love.keyboard.isDown('lshift') then
         self.speed = PLAYER_RUN_SPEED
         self.entity.speed = PLAYER_RUN_SPEED
@@ -42,7 +44,8 @@ function PlayerWalkState:update(dt)
     end
 
     if love.keyboard.wasPressed('space') then
-        self.entity:changeState('swing-sword')
+        self.entity.action = true
+        -- self.entity:changeState('swing-sword')
     end
 
     -- perform base collision detection against walls

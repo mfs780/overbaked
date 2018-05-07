@@ -20,6 +20,9 @@ function EntityWalkState:update(dt)
     -- assume we didn't hit a wall
     self.bumped = false
 
+    self.entity.px = self.entity.x
+    self.entity.py = self.entity.y
+
     if self.entity.direction == 'left' then
         self.entity.x = self.entity.x - self.entity.speed * dt
         

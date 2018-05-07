@@ -15,6 +15,8 @@ function Entity:init(def)
     self.animations = self:createAnimations(def.animations)
 
     -- dimensions
+    self.px = def.x
+    self.py = def.y
     self.x = def.x
     self.y = def.y
     self.width = def.width

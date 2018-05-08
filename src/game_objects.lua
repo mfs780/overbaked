@@ -5,14 +5,12 @@
     fahadsheikh780@gmail.com
 ]]
 
-GAME_MAP_DEFS = {
+GAME_OBJECT_DEFS = {
     ['table'] = {
-        type = 'table',
         texture = 'tiles',
         frame = TILE_TABLE,
         width = 16,
         height = 16,
-        solid = false,
         defaultState = 'table',
         states = {
             ['table'] = {
@@ -21,13 +19,12 @@ GAME_MAP_DEFS = {
         }
     },
     ['chest'] = {
-        type = 'chest',
         texture = 'tiles',
         frame = TILE_CHEST,
         width = 16,
         height = 16,
-        solid = false,
         defaultState = 'chest',
+        data = 'pot',
         states = {
             ['chest'] = {
                 frame = TILE_CHEST
@@ -35,12 +32,10 @@ GAME_MAP_DEFS = {
         }
     },
     ['hole'] = {
-        type = 'hole',
         texture = 'tiles',
         frame = TILE_HOLE,
         width = 16,
         height = 16,
-        solid = false,
         defaultState = 'hole',
         states = {
             ['hole'] = {
@@ -48,13 +43,37 @@ GAME_MAP_DEFS = {
             }
         }
     },
+    ['cut'] = {
+        action = 'cut',
+        texture = 'tiles',
+        frame = TILE_HOLE,
+        width = 16,
+        height = 16,
+        defaultState = 'cut',
+        states = {
+            ['cut'] = {
+                frame = TILE_CUT
+            }
+        }
+    },
+    ['wash'] = {
+        action = 'wash',
+        texture = 'tiles',
+        frame = TILE_HOLE,
+        width = 16,
+        height = 16,
+        defaultState = 'wash',
+        states = {
+            ['wash'] = {
+                frame = TILE_WASH
+            }
+        }
+    },
     ['pot'] = {
-        type = 'pot',
         texture = 'tiles',
         frame = TILE_POT,
         width = 16,
         height = 16,
-        solid = false,
         defaultState = 'pot',
         states = {
             ['pot'] = {

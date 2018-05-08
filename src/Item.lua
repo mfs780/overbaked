@@ -6,40 +6,37 @@
     cogden@cs50.harvard.edu
 ]]
 
-GameObject = Class{}
+Item = Class{}
 
-function GameObject:init(def, x, y)
+function Item:init(def)
     self.texture = def.texture
     self.frame = def.frame or 1
+
+    self.index = nil
 
     self.defaultState = def.defaultState
     self.state = self.defaultState
     self.states = def.states
 
-    self.data = def.data
-
     -- dimensions
-    self.x = x
-    self.y = y
     self.width = def.width
     self.height = def.height
 
-    self.onAction = function() end
+    -- default empty collision callback
+    self.canAdd = function() end -- check add list
+
+    self.add = function() end -- change item based on add list
+
+    self.canAction = function() end -- check action
+
+    self.doAction = function() end -- change frame based on action
 end
 
-function GameObject:onCollide()
-    print('base on collide')
-end
-
-function GameObject:onGrab()
-    print('base on grab')
-end
-
-function GameObject:update(dt)
+function Item:update(dt)
 
 end
 
-function GameObject:render(adjacentOffsetX, adjacentOffsetY)
+function Item:render(x, y)
     love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.states[self.state].frame or self.frame],
-        self.x + adjacentOffsetX, self.y + adjacentOffsetY)
+        x, y)
 end

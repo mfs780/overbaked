@@ -12,10 +12,15 @@ require 'src/constants'
 require 'src/Entity'
 require 'src/entity_defs'
 require 'src/GameObject'
+require 'src/Table'
+require 'src/ActionTable'
+require 'src/Item'
 require 'src/game_objects'
 require 'src/Player'
 require 'src/StateMachine'
 require 'src/Util'
+
+require 'src/Objects/Chest'
 
 require 'src/world/Room'
 

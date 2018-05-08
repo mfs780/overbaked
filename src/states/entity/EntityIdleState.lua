@@ -17,18 +17,6 @@ function EntityIdleState:init(entity)
     self.waitTimer = 0
 end
 
-function EntityIdleState:processAI(params, dt)
-    if self.waitDuration == 0 then
-        self.waitDuration = math.random(5)
-    else
-        self.waitTimer = self.waitTimer + dt
-
-        if self.waitTimer > self.waitDuration then
-            self.entity:changeState('walk')
-        end
-    end
-end
-
 function EntityIdleState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],

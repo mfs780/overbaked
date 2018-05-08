@@ -19,6 +19,7 @@ function Entity:init(def)
     self.py = def.y
     self.x = def.x
     self.y = def.y
+
     self.width = def.width
     self.height = def.height
 
@@ -27,14 +28,6 @@ function Entity:init(def)
     self.offsetY = def.offsetY or 0
 
     self.walkSpeed = def.walkSpeed
-
-    -- flags for flashing the entity when hit
-    self.invulnerable = false
-    self.invulnerableDuration = 0
-    self.invulnerableTimer = 0
-    self.flashTimer = 0
-
-    self.dead = false
 end
 
 function Entity:createAnimations(animations)
@@ -59,9 +52,26 @@ function Entity:collides(target)
                 self.y + self.height < target.y or self.y > target.y + target.height)
 end
 
-function Entity:goInvulnerable(duration)
-    self.invulnerable = true
-    self.invulnerableDuration = duration
+function Entity:checkActionCollidesX(target, x, y)
+    return not (self.x + self.width < x or self.x > x + target.width or
+                self.y + self.height < y or self.y > y + target.height)
+end
+
+function Entity:checkActionCollidesY(target, x, y)
+    return not (self.x + self.width < x or self.x > x + target.width or
+                self.y + self.height < y or self.y > y + target.height)
+end
+
+function Entity:actionable(target)
+    if self.direction == 'left' then
+        return self:checkActionCollidesX(target, target.x + 1, target.y)
+    elseif self.direction == 'right' then
+        return self:checkActionCollidesX(target, target.x - 1, target.y)
+    elseif self.direction == 'up' then
+        return self:checkActionCollidesY(target, target.x, target.y + 1)
+    elseif self.direction == 'down' then
+        return self:checkActionCollidesY(target, target.x, target.y - 1)
+    end
 end
 
 function Entity:changeState(name)
@@ -73,18 +83,6 @@ function Entity:changeAnimation(name)
 end
 
 function Entity:update(dt)
-    if self.invulnerable then
-        self.flashTimer = self.flashTimer + dt
-        self.invulnerableTimer = self.invulnerableTimer + dt
-
-        if self.invulnerableTimer > self.invulnerableDuration then
-            self.invulnerable = false
-            self.invulnerableTimer = 0
-            self.invulnerableDuration = 0
-            self.flashTimer = 0
-        end
-    end
-
     self.stateMachine:update(dt)
 
     if self.currentAnimation then
@@ -92,17 +90,7 @@ function Entity:update(dt)
     end
 end
 
-function Entity:processAI(params, dt)
-    self.stateMachine:processAI(params, dt)
-end
-
 function Entity:render(adjacentOffsetX, adjacentOffsetY)
-    -- draw sprite slightly transparent if invulnerable every 0.04 seconds
-    if self.invulnerable and self.flashTimer > 0.06 then
-        self.flashTimer = 0
-        love.graphics.setColor(255, 255, 255, 64)
-    end
-
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
     self.stateMachine:render()
     love.graphics.setColor(255, 255, 255, 255)

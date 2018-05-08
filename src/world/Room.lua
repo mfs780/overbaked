@@ -22,6 +22,10 @@ function Room:init(player)
     -- reference to player for collisions, etc.
     self.player = player
 
+    self.player.room = self
+
+    self.foods = {}
+
     self.tiles = {}
     self:generateWallsAndFloors()
 
@@ -32,8 +36,8 @@ function Room:init(player)
         {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
         {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
         {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
-        {"E", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "E", "E", "E", "T", "E"},
-        {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
+        {"E", "T", "T", "C", "T", "T", "H", "T", "T", "T", "T", "T", "T", "T", "E", "E", "H", "E", "E", "E", "T", "E"},
+        {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "C", "E", "E", "E", "T", "E"},
         {"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
         {"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
         {"E", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "E"},
@@ -51,55 +55,33 @@ function Room:generateMap()
             local tile = self.layout[y][x]
             
             if tile == 'T' then
-                table.insert(self.map, GameObject(
-                    GAME_MAP_DEFS['table'],
+                table.insert(self.map, Table(
+                    GAME_OBJECT_DEFS['table'],
                     (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
                     (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
                 ))
 
                 local wall = self.map[table.maxn(self.map)]
-
-                -- left: x > && y >= && <= Y + TILE_SIZE
-                -- 
-                wall.onCollide = function()
-                    self.player.x = self.player.px
-                    self.player.y = self.player.py
-                end
             end
 
             if tile == 'C' then
-                table.insert(self.map, GameObject(
-                    GAME_MAP_DEFS['chest'],
+                table.insert(self.map, Chest(
+                    GAME_OBJECT_DEFS['chest'],
                     (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
                     (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
                 ))
 
                 local chest = self.map[table.maxn(self.map)]
-
-                -- left: x > && y >= && <= Y + TILE_SIZE
-                -- 
-                chest.onCollide = function()
-                    print(self.player.action)
-                    self.player.x = self.player.px
-                    self.player.y = self.player.py
-                end
             end
 
             if tile == 'H' then
-                table.insert(self.map, GameObject(
-                    GAME_MAP_DEFS['hole'],
+                table.insert(self.map, ActionTable(
+                    GAME_OBJECT_DEFS['hole'],
                     (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
                     (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
                 ))
 
                 local hole = self.map[table.maxn(self.map)]
-
-                -- left: x > && y >= && <= Y + TILE_SIZE
-                -- 
-                hole.onCollide = function()
-                    self.player.x = self.player.px
-                    self.player.y = self.player.py
-                end
             end
         end
     end
@@ -154,9 +136,21 @@ function Room:update(dt)
 
         -- trigger collision callback on object
         if self.player:collides(object) then
-            object:onCollide()
+            object:onCollide(self.player)
+        end
+
+        if self.player.action and self.player:actionable(object) then
+            object:onAction()
+        end
+
+        if self.player.grab and self.player:actionable(object) then
+            print('going to grab')
+            object:onGrab(self.player, self.foods)
         end
     end
+
+    self.player.action = false
+    self.player.grab = false
 end
 
 function Room:render()

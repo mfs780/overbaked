@@ -23,7 +23,9 @@ function ActionTable:onGrab (player, foods)
 end
 
 function ActionTable:onAction (player)
+    print('actionTable try')
     if (player.carrying == nil and not self.ontop == nil and self.ontop:canAction(self.action)) then
+        print('do action')
         self.ontop:doAction(self.action)
     end
 end

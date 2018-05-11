@@ -20,12 +20,15 @@ end
 function Chest:getItemType()
     print(self.state)
     if (self.state == 'cdo') then
+        self.item = Doe
         self.type = 'doe'
         self.typeState = 'doe'
     elseif (self.state == 'cst') then
+        self.item = Frosting
         self.type = 'frosting'
         self.typeState = 'fst'
     elseif (self.state == 'cch') then
+        self.item = Frosting
         self.type = 'frosting'
         self.typeState = 'fch'
     end
@@ -35,7 +38,7 @@ function Chest:onGrab (player, foods)
     print(self.type, self.typeState)
     if (player.carrying == nil and self.ontop == nil and self.type) then
         print('chest grab')
-        table.insert(foods, Item(
+        table.insert(foods, self.item(
             GAME_OBJECT_DEFS[self.type],
             self.typeState
         ))

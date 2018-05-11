@@ -27,9 +27,11 @@ function Item:init(def, state)
 
     self.add = function() end -- change item based on add list
 
-    self.canAction = function() end -- check action
-
     self.doAction = function() end -- change frame based on action
+end
+
+function Item:canAction()
+    print('base on collide')
 end
 
 function Item:update(dt)

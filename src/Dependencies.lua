@@ -25,6 +25,10 @@ require 'src/Objects/Knead'
 require 'src/Objects/Hole'
 require 'src/Objects/Oven'
 
+require 'src/Items/Doe'
+require 'src/Items/Frosting'
+require 'src/Items/Plate'
+
 require 'src/world/Room'
 
 require 'src/states/BaseState'

@@ -111,7 +111,7 @@ function Room:generateMap()
                 ))
 
                 local ptable = self.map[table.maxn(self.map)]
-                table.insert(self.foods, Item(
+                table.insert(self.foods, Plate(
                     GAME_OBJECT_DEFS['plate'],
                     tile
                 ))
@@ -191,7 +191,8 @@ function Room:update(dt)
         end
 
         if self.player.action and self.player:actionable(object) then
-            object:onAction()
+            print('doing action')
+            object:onAction(self.player)
         end
 
         if self.player.grab and self.player:actionable(object) then

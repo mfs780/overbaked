@@ -7,78 +7,156 @@
 
 GAME_OBJECT_DEFS = {
     ['table'] = {
-        texture = 'tiles',
-        frame = TILE_TABLE,
+        texture = 'kitchen',
+        frame = 2,
         width = 16,
         height = 16,
-        defaultState = 'table',
+        defaultState = 'tts',
         states = {
-            ['table'] = {
-                frame = TILE_TABLE
+            ['ttl'] = {
+                frame = 1
+            },
+            ['tts'] = {
+                frame = 2
+            },
+            ['ttr'] = {
+                frame = 3
+            },
+            ['tls'] = {
+                frame = 6
+            },
+            ['trs'] = {
+                frame = 8
+            },
+            ['tbl'] = {
+                frame = 11
+            },
+            ['tbs'] = {
+                frame = 12
+            },
+            ['tbr'] = {
+                frame = 13
             }
         }
     },
     ['chest'] = {
-        texture = 'tiles',
-        frame = TILE_CHEST,
+        texture = 'kitchen',
+        frame = 26,
         width = 16,
         height = 16,
-        defaultState = 'chest',
-        data = 'pot',
+        defaultState = 'cdo',
+        data = 'tts',
         states = {
-            ['chest'] = {
-                frame = TILE_CHEST
+            ['cdo'] = {
+                frame = 26
+            },
+            ['cst'] = {
+                frame = 14
+            },
+            ['cch'] = {
+                frame = 15
             }
         }
     },
     ['hole'] = {
-        texture = 'tiles',
-        frame = TILE_HOLE,
+        texture = 'kitchen',
+        frame = 21,
         width = 16,
         height = 16,
-        defaultState = 'hole',
+        defaultState = 'hol',
         states = {
-            ['hole'] = {
-                frame = TILE_HOLE
+            ['hol'] = {
+                frame = 21
             }
         }
     },
-    ['cut'] = {
-        action = 'cut',
-        texture = 'tiles',
-        frame = TILE_HOLE,
+    ['knead'] = {
+        action = 'knead',
+        texture = 'kitchen',
+        frame = 16,
         width = 16,
         height = 16,
-        defaultState = 'cut',
+        defaultState = 'knd',
         states = {
-            ['cut'] = {
-                frame = TILE_CUT
+            ['knd'] = {
+                frame = 16
             }
         }
     },
-    ['wash'] = {
-        action = 'wash',
-        texture = 'tiles',
-        frame = TILE_HOLE,
+    ['oven'] = {
+        action = 'bake',
+        texture = 'kitchen',
+        frame = 16,
         width = 16,
         height = 16,
-        defaultState = 'wash',
+        defaultState = 'oof',
         states = {
-            ['wash'] = {
-                frame = TILE_WASH
+            ['oof'] = {
+                frame = 4
+            },
+            ['oon'] = {
+                frame = 4
             }
         }
     },
-    ['pot'] = {
-        texture = 'tiles',
-        frame = TILE_POT,
+    ['frosting'] = {
+        texture = 'kitchen',
+        frame = 9,
         width = 16,
         height = 16,
-        defaultState = 'pot',
+        defaultState = 'fst',
         states = {
-            ['pot'] = {
-                frame = TILE_POT
+            ['fst'] = {
+                frame = 9
+            },
+            ['fch'] = {
+                frame = 10
             }
         }
-    }
+    },
+    ['doe'] = {
+        texture = 'kitchen',
+        frame = 27,
+        width = 16,
+        height = 16,
+        defaultState = 'doe',
+        states = {
+            ['doe'] = {
+                frame = 27
+            },
+            ['don'] = {
+                frame = 28
+            }
+        }
+    },
+    ['plate'] = {
+        texture = 'kitchen',
+        frame = 17,
+        width = 16,
+        height = 16,
+        defaultState = 'doe',
+        states = {
+            ['pen'] = {
+                frame = 17
+            },
+            ['pvn'] = {
+                frame = 18
+            },
+            ['psn'] = {
+                frame = 19
+            },
+            ['pcn'] = {
+                frame = 20
+            },
+            ['pvb'] = {
+                frame = 23
+            },
+            ['psb'] = {
+                frame = 24
+            },
+            ['pcb'] = {
+                frame = 25
+            }
+        }
+    },
 }

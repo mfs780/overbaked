@@ -8,13 +8,13 @@
 
 Item = Class{}
 
-function Item:init(def)
+function Item:init(def, state)
     self.texture = def.texture
     self.frame = def.frame or 1
 
     self.index = nil
 
-    self.defaultState = def.defaultState
+    self.defaultState = state or def.defaultState
     self.state = self.defaultState
     self.states = def.states
 

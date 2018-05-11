@@ -8,9 +8,18 @@
 ActionTable = Class{__includes = Table}
 
 function ActionTable:init(def, x, y)
-    Table.init(self, def, x, y)
+    Table.init(self, def, nil, x, y)
 
     self.action = def.action
+end
+
+
+function ActionTable:onGrab (player, foods)
+    if (player.carrying and player.carrying:canAction(self.action) and self.ontop == nil) then
+        Table.onGrab(self, player, foods)
+    elseif (player.carrying == nil and self.ontop) then
+        Table.onGrab(self, player, foods)
+    end
 end
 
 function ActionTable:onAction (player)

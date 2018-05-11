@@ -42,6 +42,10 @@ function Player:checkActionCollidesX(target, x, y)
                 selfY + selfHeight < y or selfY > y + target.height)
 end
 
-function Player:render()
+function Player:render(adjacentOffsetX, adjacentOffsetY)
     Entity.render(self)
+
+    if (self.carrying) then
+        self.carrying:render(self.x, self.y - self.carrying.height)
+    end
 end

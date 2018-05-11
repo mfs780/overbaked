@@ -31,17 +31,17 @@ function Room:init(player)
 
     self.map = {}
     self.layout = {
-        {"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"},
-        {"E", "T", "T", "C", "T", "T", "H", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "E"},
-        {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
-        {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
-        {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
-        {"E", "T", "T", "C", "T", "T", "H", "T", "T", "T", "T", "T", "T", "T", "E", "E", "H", "E", "E", "E", "T", "E"},
-        {"E", "T", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "C", "E", "E", "E", "T", "E"},
-        {"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
-        {"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "T", "E"},
-        {"E", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "E"},
-        {"E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E"}
+        {"emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp"},
+        {"emp", "ttl", "tts", "cdo", "tts", "tts", "tts", "tts", "tts", "oof", "tts", "oof", "tts", "oof", "tts", "tts", "tts", "tts", "tts", "tts", "ttr", "emp"},
+        {"emp", "tls", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "trs", "emp"},
+        {"emp", "tls", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "trs", "emp"},
+        {"emp", "tls", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "trs", "emp"},
+        {"emp", "tls", "emp", "emp", "tts", "tts", "tts", "tts", "tts", "pen", "tts", "pen", "tts", "pen", "tts", "tts", "tts", "tts", "emp", "emp", "trs", "emp"},
+        {"emp", "tls", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "doe", "emp", "emp", "emp", "trs", "emp"},
+        {"emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "trs", "emp"},
+        {"emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "hol", "emp"},
+        {"emp", "tbl", "tbs", "tbs", "knd", "tbs", "knd", "tbs", "tbs", "tbs", "tbs", "tbs", "tbs", "tbs", "cst", "tbs", "cch", "tbs", "tbs", "tbs", "tbr", "emp"},
+        {"emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp"}
     }
     self:generateMap()
 end
@@ -53,38 +53,89 @@ function Room:generateMap()
     for y = 1, self.height do
         for x = 1, self.width do
             local tile = self.layout[y][x]
+            local first = string.sub(tile, 1, 1)
+
+            -- Base Tables
             
-            if tile == 'T' then
+            if first == 't' then
                 table.insert(self.map, Table(
                     GAME_OBJECT_DEFS['table'],
+                    tile,
                     (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
                     (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
                 ))
-
-                local wall = self.map[table.maxn(self.map)]
             end
 
-            if tile == 'C' then
+            if first == 'c' then
                 table.insert(self.map, Chest(
                     GAME_OBJECT_DEFS['chest'],
+                    tile,
+                    self:getBaseTable(x, y),
                     (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
                     (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
                 ))
-
-                local chest = self.map[table.maxn(self.map)]
             end
 
-            if tile == 'H' then
-                table.insert(self.map, ActionTable(
+            if first == 'h' then
+                table.insert(self.map, Hole(
                     GAME_OBJECT_DEFS['hole'],
                     (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
                     (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
                 ))
+            end
 
-                local hole = self.map[table.maxn(self.map)]
+            if first == 'k' then
+                table.insert(self.map, Knead(
+                    GAME_OBJECT_DEFS['knead'],
+                    nil,
+                    self:getBaseTable(x, y),
+                    (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
+                    (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
+                ))
+            end
+
+            if first == 'o' then
+                table.insert(self.map, Oven(
+                    GAME_OBJECT_DEFS['oven'],
+                    (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
+                    (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
+                ))
+            end
+
+            if first == 'p' then
+                table.insert(self.map, Table(
+                    GAME_OBJECT_DEFS['table'],
+                    self:getBaseTable(x, y),
+                    (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
+                    (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
+                ))
+
+                local ptable = self.map[table.maxn(self.map)]
+                table.insert(self.foods, Item(
+                    GAME_OBJECT_DEFS['plate'],
+                    tile
+                ))
+
+                local food = self.foods[table.maxn(self.foods)]
+                food.index = table.maxn(self.foods)
+
+                ptable.ontop = food
             end
         end
     end
+end
+
+function Room:getBaseTable(x, y)
+    if (string.sub(self.layout[y][x - 1], 1, 1) == 't') then
+        return self.layout[y][x - 1]
+    elseif (string.sub(self.layout[y][x + 1], 1, 1) == 't') then 
+        return self.layout[y][x + 1]
+    elseif (string.sub(self.layout[y - 1][x], 1, 1) == 't') then 
+        return self.layout[y - 1][x]
+    elseif (string.sub(self.layout[y + 1][x], 1, 1) == 't') then 
+        return self.layout[y + 1][x]
+    end
+    return 'tts'
 end
 
 --[[
@@ -144,7 +195,6 @@ function Room:update(dt)
         end
 
         if self.player.grab and self.player:actionable(object) then
-            print('going to grab')
             object:onGrab(self.player, self.foods)
         end
     end

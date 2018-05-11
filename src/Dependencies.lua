@@ -21,6 +21,9 @@ require 'src/StateMachine'
 require 'src/Util'
 
 require 'src/Objects/Chest'
+require 'src/Objects/Knead'
+require 'src/Objects/Hole'
+require 'src/Objects/Oven'
 
 require 'src/world/Room'
 
@@ -36,6 +39,7 @@ require 'src/states/game/PlayState'
 require 'src/states/game/StartState'
 
 gTextures = {
+    ['kitchen'] = love.graphics.newImage('graphics/kitchen.png'),
     ['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
     ['background'] = love.graphics.newImage('graphics/background.png'),
     ['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
@@ -46,6 +50,7 @@ gTextures = {
 }
 
 gFrames = {
+    ['kitchen'] = GenerateQuads(gTextures['kitchen'], 16, 16),
     ['tiles'] = GenerateQuads(gTextures['tiles'], 16, 16),
     ['character-walk'] = GenerateQuads(gTextures['character-walk'], 16, 32),
     ['character-swing-sword'] = GenerateQuads(gTextures['character-swing-sword'], 32, 32),

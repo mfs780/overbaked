@@ -222,7 +222,7 @@ function Room:update(dt)
             GAME_OBJECT_DEFS['plate'],
             self.orders[math.random(3)]
         ))
-        self.orderTimer = 10
+        self.orderTimer = 15
     end
 
     for k, object in pairs(self.player.orders) do

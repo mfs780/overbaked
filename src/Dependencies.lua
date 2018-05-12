@@ -42,6 +42,7 @@ require 'src/states/entity/player/PlayerWalkState'
 
 require 'src/states/game/PlayState'
 require 'src/states/game/StartState'
+require 'src/states/game/ScoreState'
 
 gTextures = {
     ['kitchen'] = love.graphics.newImage('graphics/kitchen.png'),

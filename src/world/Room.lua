@@ -231,6 +231,7 @@ function Room:update(dt)
         if (object.x > VIRTUAL_WIDTH - 19) then
             table.remove(self.player.orders, k)
             self.player.score = self.player.score - 10
+            self.player.missed = self.player.missed + 1
 
             if (self.player.score < 0) then
                 self.player.score = 0

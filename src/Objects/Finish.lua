@@ -22,6 +22,8 @@ function Finish:onGrab (player, foods)
         for k, object in pairs(player.orders) do
             if (removeIndex == nil and object.state == player.carrying.state) then
                 player.score = player.score + 20 + math.floor((object.x / (VIRTUAL_WIDTH)) * 10)
+                player.complete = player.complete + 1
+                player.tips = player.tips + math.floor((object.x / (VIRTUAL_WIDTH)) * 10)
                 removeIndex = k
             end
         end

@@ -34,7 +34,7 @@ function PlayState:init()
     }
     self.player:changeState('idle')
 
-    self.gameTimer = 121
+    self.gameTimer = 120
 end
 
 function PlayState:enter(params)
@@ -50,7 +50,7 @@ function PlayState:update(dt)
 
     self.gameTimer = self.gameTimer - dt
     if (self.gameTimer <= 0) then
-        gStateMachine:change('start')
+        gStateMachine:change('score', self.player)
     end
 end
 

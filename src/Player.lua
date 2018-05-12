@@ -17,6 +17,9 @@ function Player:init(def)
     self.orders = {}
 
     self.score = def.score
+    self.complete = 0
+    self.tips = 0
+    self.missed = 0
 end
 
 function Player:update(dt)

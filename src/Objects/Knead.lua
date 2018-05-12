@@ -13,6 +13,13 @@ function Knead:init(def, state, tableState, x, y)
     self.defaultState = state or def.defaultState
     self.state = self.defaultState
     self.tableState = tableState
+    self.actionLimit = 3
+    self.actionNumber = 0
+end
+
+function Knead:onAction (player)
+    print('Knead', 'onAction', player)
+    ActionTable.onAction(self, player)
 end
 
 function Knead:update(dt)

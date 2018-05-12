@@ -22,12 +22,24 @@ function Item:init(def, state)
     self.width = def.width
     self.height = def.height
 
-    -- default empty collision callback
-    self.canAdd = function() end -- check add list
+    self.ingredients = {}
+end
 
-    self.add = function() end -- change item based on add list
+function Item:doAction()
+    print ('item do action')
+end
 
-    self.doAction = function() end -- change frame based on action
+function Item:canAdd()
+end
+
+function Item:hasIngredient(foodState)
+    return self.ingredients[foodState] ~= nil
+end
+
+function Item:add(player, foods)
+    self.ingredients[player.carrying.state] = player.carrying
+    table.remove(foods, player.carrying.index)
+    player.carrying = nil
 end
 
 function Item:canAction()

@@ -19,14 +19,21 @@ function ActionTable:onGrab (player, foods)
         Table.onGrab(self, player, foods)
     elseif (player.carrying == nil and self.ontop) then
         Table.onGrab(self, player, foods)
+        self.actionNumber = 0
     end
 end
 
 function ActionTable:onAction (player)
-    print('actionTable try')
-    if (player.carrying == nil and not self.ontop == nil and self.ontop:canAction(self.action)) then
-        print('do action')
-        self.ontop:doAction(self.action)
+    print('actionTable try', player.carrying, self.ontop, self.action)
+    if (player.carrying == nil and self.ontop and self.ontop:canAction(self.action)) then
+        self.actionNumber = self.actionNumber + 1
+
+        print('do action', self.actionNumber, self.actionLimit)
+        if (self.actionNumber >= self.actionLimit) then
+            print('after do action', self.ontop, self.ontop.cool)
+            self.ontop:doAction(self.action)
+            self.actionNumber = 0
+        end
     end
 end
 

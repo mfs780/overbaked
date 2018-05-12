@@ -23,8 +23,6 @@ function GameObject:init(def, x, y)
     self.y = y
     self.width = def.width
     self.height = def.height
-
-    self.onAction = function() end
 end
 
 function GameObject:onCollide()

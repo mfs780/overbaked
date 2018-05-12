@@ -70,6 +70,19 @@ GAME_OBJECT_DEFS = {
             }
         }
     },
+    ['finish'] = {
+        texture = 'kitchen',
+        frame = 29,
+        width = 16,
+        height = 16,
+        data = 'tts',
+        defaultState = 'fin',
+        states = {
+            ['fin'] = {
+                frame = 29
+            }
+        }
+    },
     ['knead'] = {
         action = 'knead',
         texture = 'kitchen',
@@ -96,6 +109,9 @@ GAME_OBJECT_DEFS = {
             },
             ['oon'] = {
                 frame = 5
+            },
+            ['ood'] = {
+                frame = 22
             }
         }
     },

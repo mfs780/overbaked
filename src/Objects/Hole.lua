@@ -12,7 +12,10 @@ function Hole:init(def, x, y)
 end
 
 function Hole:onGrab (player, foods)
-    if (player.carrying) then
+    if (player.carrying and player.carrying.ingredients) then
+        player.carrying.ingredients = {}
+        player.carrying.state = 'pen'
+    elseif (player.carrying) then
         table.remove(foods, player.carrying.index)
         player.carrying = nil
     end

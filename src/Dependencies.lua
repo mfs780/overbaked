@@ -21,6 +21,7 @@ require 'src/StateMachine'
 require 'src/Util'
 
 require 'src/Objects/Chest'
+require 'src/Objects/Finish'
 require 'src/Objects/Knead'
 require 'src/Objects/Hole'
 require 'src/Objects/Oven'

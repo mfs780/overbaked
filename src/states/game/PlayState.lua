@@ -21,7 +21,9 @@ function PlayState:init()
         -- rendering and collision offset for spaced sprites
         offsetY = 5,
 
-        bumped = false
+        bumped = false,
+
+        score = 0
     }
 
     self.currentRoom = Room(self.player)
@@ -31,6 +33,8 @@ function PlayState:init()
         ['idle'] = function() return PlayerIdleState(self.player) end
     }
     self.player:changeState('idle')
+
+    self.gameTimer = 121
 end
 
 function PlayState:enter(params)
@@ -43,6 +47,11 @@ function PlayState:update(dt)
     end
 
     self.currentRoom:update(dt)
+
+    self.gameTimer = self.gameTimer - dt
+    if (self.gameTimer <= 0) then
+        gStateMachine:change('start')
+    end
 end
 
 function PlayState:render()
@@ -50,4 +59,12 @@ function PlayState:render()
     love.graphics.push()
     self.currentRoom:render()
     love.graphics.pop()
+
+    
+    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setColor(255, 215, 0, 255)
+    love.graphics.printf(self.player.score, 10, VIRTUAL_HEIGHT - 18, 100, 'left')
+    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.printf(self.player.score, 11, VIRTUAL_HEIGHT - 18, 100, 'left')
+    love.graphics.printf(math.floor(self.gameTimer), VIRTUAL_WIDTH - 40, VIRTUAL_HEIGHT - 18, 100, 'left')
 end

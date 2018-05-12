@@ -25,6 +25,11 @@ function GameObject:init(def, x, y)
     self.height = def.height
 end
 
+function GameObject:shiftLeft(dt)
+    self.x = self.x - 1 * dt
+    print(self.x)
+end
+
 function GameObject:onCollide()
 end
 

@@ -9,6 +9,8 @@ Plate = Class{__includes = Item}
 
 function Plate:init(def, state)
     Item.init(self, def, state)
+
+    self.x = 0
 end
 
 function Plate:canAction (action)

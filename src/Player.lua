@@ -13,6 +13,10 @@ function Player:init(def)
     self.carrying = nil
 
     self.room = nil
+
+    self.orders = {}
+
+    self.score = def.score
 end
 
 function Player:update(dt)
@@ -46,6 +50,6 @@ function Player:render(adjacentOffsetX, adjacentOffsetY)
     Entity.render(self)
 
     if (self.carrying) then
-        self.carrying:render(self.x, self.y - self.carrying.height)
+        self.carrying:render(math.floor(self.x), math.floor(self.y - self.carrying.height))
     end
 end

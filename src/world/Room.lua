@@ -24,6 +24,10 @@ function Room:init(player)
 
     self.player.room = self
 
+    self.orders = {'pvb', 'psb', 'pcb'}
+
+    self.orderTimer = 3
+
     self.foods = {}
 
     self.tiles = {}
@@ -38,8 +42,8 @@ function Room:init(player)
         {"emp", "tls", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "trs", "emp"},
         {"emp", "tls", "emp", "emp", "tts", "tts", "tts", "tts", "tts", "pen", "tts", "pen", "tts", "pen", "tts", "tts", "tts", "tts", "emp", "emp", "trs", "emp"},
         {"emp", "tls", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "doe", "emp", "emp", "emp", "trs", "emp"},
-        {"emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "trs", "emp"},
-        {"emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "hol", "emp"},
+        {"emp", "fin", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "trs", "emp"},
+        {"emp", "tls", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "hol", "emp"},
         {"emp", "tbl", "tbs", "tbs", "knd", "tbs", "knd", "tbs", "tbs", "tbs", "tbs", "tbs", "tbs", "tbs", "cst", "tbs", "cch", "tbs", "tbs", "tbs", "tbr", "emp"},
         {"emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp", "emp"}
     }
@@ -69,6 +73,16 @@ function Room:generateMap()
             if first == 'c' then
                 table.insert(self.map, Chest(
                     GAME_OBJECT_DEFS['chest'],
+                    tile,
+                    self:getBaseTable(x, y),
+                    (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
+                    (y - 1) * TILE_SIZE + self.renderOffsetY + self.adjacentOffsetY
+                ))
+            end
+
+            if first == 'f' then
+                table.insert(self.map, Finish(
+                    GAME_OBJECT_DEFS['finish'],
                     tile,
                     self:getBaseTable(x, y),
                     (x - 1) * TILE_SIZE + self.renderOffsetX + self.adjacentOffsetX,
@@ -201,6 +215,28 @@ function Room:update(dt)
 
     self.player.action = false
     self.player.grab = false
+
+    self.orderTimer = self.orderTimer - dt
+    if (self.orderTimer <= 0) then
+        table.insert(self.player.orders, Plate(
+            GAME_OBJECT_DEFS['plate'],
+            self.orders[math.random(3)]
+        ))
+        self.orderTimer = 10
+    end
+
+    for k, object in pairs(self.player.orders) do
+        object.x = object.x + (10 * dt)
+
+        if (object.x > VIRTUAL_WIDTH - 19) then
+            table.remove(self.player.orders, k)
+            self.player.score = self.player.score - 10
+
+            if (self.player.score < 0) then
+                self.player.score = 0
+            end
+        end
+    end
 end
 
 function Room:render()
@@ -220,5 +256,9 @@ function Room:render()
 
     if self.player then
         self.player:render()
+    end
+
+    for k, object in pairs(self.player.orders) do
+        object:render(VIRTUAL_WIDTH - 19 - math.floor(object.x), 2)
     end
 end

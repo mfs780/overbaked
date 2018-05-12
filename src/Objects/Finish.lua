@@ -28,7 +28,7 @@ function Finish:onGrab (player, foods)
             end
         end
 
-        if (removeIndex > 0) then
+        if (player.orders[removeIndex] ~= nil and removeIndex > 0) then
             table.remove(player.orders, removeIndex)
         end
 

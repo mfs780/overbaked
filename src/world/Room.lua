@@ -191,7 +191,6 @@ function Room:update(dt)
         end
 
         if self.player.action and self.player:actionable(object) then
-            print('doing action')
             object:onAction(self.player)
         end
 

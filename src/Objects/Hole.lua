@@ -13,7 +13,6 @@ end
 
 function Hole:onGrab (player, foods)
     if (player.carrying) then
-        print('hole grab')
         table.remove(foods, player.carrying.index)
         player.carrying = nil
     end

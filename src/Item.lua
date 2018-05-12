@@ -26,7 +26,6 @@ function Item:init(def, state)
 end
 
 function Item:doAction()
-    print ('item do action')
 end
 
 function Item:canAdd()
@@ -43,7 +42,6 @@ function Item:add(player, foods)
 end
 
 function Item:canAction()
-    print('base on collide')
 end
 
 function Item:update(dt)

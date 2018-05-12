@@ -15,6 +15,10 @@ function Doe:canAction (action)
     return (action == 'knead' and self.state == 'doe')
 end
 
+function Doe:doAction ()
+    self.state = 'don'
+end
+
 function Doe:update(dt)
     Item.update(self, dt)
 end

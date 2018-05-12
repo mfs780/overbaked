@@ -64,13 +64,13 @@ end
 
 function Entity:actionable(target)
     if self.direction == 'left' then
-        return self:checkActionCollidesX(target, target.x + 1, target.y)
+        return self:checkActionCollidesX(target, target.x + 2, target.y)
     elseif self.direction == 'right' then
-        return self:checkActionCollidesX(target, target.x - 1, target.y)
+        return self:checkActionCollidesX(target, target.x - 2, target.y)
     elseif self.direction == 'up' then
-        return self:checkActionCollidesY(target, target.x, target.y + 1)
+        return self:checkActionCollidesY(target, target.x, target.y + 2)
     elseif self.direction == 'down' then
-        return self:checkActionCollidesY(target, target.x, target.y - 1)
+        return self:checkActionCollidesY(target, target.x, target.y - 2)
     end
 end
 

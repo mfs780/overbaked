@@ -26,11 +26,9 @@ function GameObject:init(def, x, y)
 end
 
 function GameObject:onCollide()
-    print('base on collide')
 end
 
 function GameObject:onGrab()
-    print('base on grab')
 end
 
 function GameObject:update(dt)

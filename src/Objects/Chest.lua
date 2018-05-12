@@ -14,33 +14,30 @@ function Chest:init(def, state, tableState, x, y)
     self.state = self.defaultState
     self.tableState = tableState
 
-    self:getItemType()
+    self:getItemfood()
 end
 
-function Chest:getItemType()
-    print(self.state)
+function Chest:getItemfood()
     if (self.state == 'cdo') then
         self.item = Doe
-        self.type = 'doe'
-        self.typeState = 'doe'
+        self.food = 'doe'
+        self.foodState = 'doe'
     elseif (self.state == 'cst') then
         self.item = Frosting
-        self.type = 'frosting'
-        self.typeState = 'fst'
+        self.food = 'frosting'
+        self.foodState = 'fst'
     elseif (self.state == 'cch') then
         self.item = Frosting
-        self.type = 'frosting'
-        self.typeState = 'fch'
+        self.food = 'frosting'
+        self.foodState = 'fch'
     end
 end
 
 function Chest:onGrab (player, foods)
-    print(self.type, self.typeState)
-    if (player.carrying == nil and self.ontop == nil and self.type) then
-        print('chest grab')
+    if (player.carrying == nil and self.ontop == nil and self.food) then
         table.insert(foods, self.item(
-            GAME_OBJECT_DEFS[self.type],
-            self.typeState
+            GAME_OBJECT_DEFS[self.food],
+            self.foodState
         ))
 
         local food = foods[table.maxn(foods)]
@@ -48,7 +45,6 @@ function Chest:onGrab (player, foods)
 
         self.ontop = food
     end
-    print('chest grab on top', self.ontop)
     ActionTable.onGrab(self, player, foods)
 end
 

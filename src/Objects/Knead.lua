@@ -18,7 +18,6 @@ function Knead:init(def, state, tableState, x, y)
 end
 
 function Knead:onAction (player)
-    print('Knead', 'onAction', player)
     ActionTable.onAction(self, player)
 end
 

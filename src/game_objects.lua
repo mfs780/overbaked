@@ -95,7 +95,7 @@ GAME_OBJECT_DEFS = {
                 frame = 4
             },
             ['oon'] = {
-                frame = 4
+                frame = 5
             }
         }
     },

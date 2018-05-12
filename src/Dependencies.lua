@@ -43,11 +43,13 @@ require 'src/states/entity/player/PlayerWalkState'
 require 'src/states/game/PlayState'
 require 'src/states/game/StartState'
 require 'src/states/game/ScoreState'
+require 'src/states/game/InstructionState'
 
 gTextures = {
     ['kitchen'] = love.graphics.newImage('graphics/kitchen.png'),
     ['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
     ['background'] = love.graphics.newImage('graphics/background.png'),
+    ['instructions'] = love.graphics.newImage('graphics/instructions.png'),
     ['character-walk'] = love.graphics.newImage('graphics/character_walk.png'),
     ['character-swing-sword'] = love.graphics.newImage('graphics/character_swing_sword.png'),
     ['hearts'] = love.graphics.newImage('graphics/hearts.png'),
